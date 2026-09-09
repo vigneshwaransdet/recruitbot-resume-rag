@@ -23,3 +23,6 @@ uploads/
 # stray test artifacts
 search_diag.txt
 search_result.json
+
+# Real resume PDFs (PII - not for the repo)
+resume-rag-backend/Resumes/
