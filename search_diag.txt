@@ -1,4 +1,0 @@
-﻿degraded=False warnings= count=3
-rank=1 score=0.85 reason=Only candidate with RAG and MCP experience; strong GenAI/LLM background, though not a senior QA architect.
-rank=2 score=0.6 reason=7+ years QA experience (senior level) but lacks RAG, DeepEval, and MCP keywords.
-rank=3 score=0.55 reason=Mentions RAG skill; however, role is ML Engineer, not QA, and no MCP or DeepEval experience.

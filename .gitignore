@@ -19,3 +19,7 @@ uploads/
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# stray test artifacts
+search_diag.txt
+search_result.json
