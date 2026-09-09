@@ -1,0 +1,21 @@
+# Root safety-net ignores for the combined repo.
+
+# Dependencies & build output
+node_modules/
+dist/
+dist-ssr/
+
+# Secrets / env (never commit real keys). .env.example is allowed.
+.env
+.env.*
+!.env.example
+
+# Uploads & logs
+uploads/
+*.log
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json

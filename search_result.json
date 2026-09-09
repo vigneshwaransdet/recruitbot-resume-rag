@@ -1,0 +1,79 @@
+﻿{
+    "query":  "Senior agentic QA architect with RAG, MCP, DeepEval and Azure DevOps experience",
+    "results":  [
+                    {
+                        "rank":  1,
+                        "resumeId":  "6a96d5b50500fd1df928a8f9",
+                        "name":  "Santhana Bharathi",
+                        "role":  "Engineer with 2+ years of production experience architecting Autonomous Agents and High-Throughput Data Pipelines . Spec",
+                        "company":  null,
+                        "totalExperience":  2,
+                        "skills":  [
+                                       "Java",
+                                       "Selenium",
+                                       "SQL",
+                                       "Python",
+                                       "GenAI",
+                                       "Langchain",
+                                       "Langgraph",
+                                       "RAG",
+                                       "GitHub"
+                                   ],
+                        "sources":  [
+                                        "bm25",
+                                        "vector"
+                                    ],
+                        "summary":  ""
+                    },
+                    {
+                        "rank":  2,
+                        "resumeId":  "6a96d5460500fd1df928a898",
+                        "name":  "PROFESSIONAL SUMMARY Passionate AI",
+                        "role":  "Learning Engineer with 1+ years of professional experience in building and deploying real- world ML/DL models across dom",
+                        "company":  null,
+                        "totalExperience":  1,
+                        "skills":  [
+                                       "MongoDB",
+                                       "Python",
+                                       "RAG",
+                                       "GitHub"
+                                   ],
+                        "sources":  [
+                                        "bm25",
+                                        "vector"
+                                    ],
+                        "summary":  "The candidate has **1+ year** of experience as a Learning Engineer and lists **RAG** among their skills, but they do not demonstrate senior‑level expertise, QA architecture experience, or knowledge of"
+                    },
+                    {
+                        "rank":  3,
+                        "resumeId":  "6a96d5a50500fd1df928a8f5",
+                        "name":  null,
+                        "role":  "Software Engineer-AI/ML Chennai, TamilNadu Python, FastAPI, LlamaIndex, Gen AI, LLM, Pinecone, MongoDB, MCP server, Open",
+                        "company":  null,
+                        "totalExperience":  null,
+                        "skills":  [
+                                       "Postman",
+                                       "SQL",
+                                       "MongoDB",
+                                       "Python",
+                                       "RAG"
+                                   ],
+                        "sources":  [
+                                        "bm25",
+                                        "vector"
+                                    ],
+                        "summary":  "**Fit Summary**\n\n- **Relevant Technologies:** The candidate has hands‑on experience"
+                    }
+                ],
+    "degraded":  true,
+    "warnings":  [
+                     "LLM_RERANK_FAILED"
+                 ],
+    "timings":  {
+                    "bm25Ms":  146,
+                    "embeddingMs":  439,
+                    "vectorMs":  78,
+                    "summarizeMs":  795,
+                    "totalMs":  1679
+                }
+}

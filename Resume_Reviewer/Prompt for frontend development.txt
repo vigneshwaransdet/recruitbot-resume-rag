@@ -1,0 +1,170 @@
+# I — INSTRUCTION
+ 
+I already completed my backend implementation.
+ 
+Now I want to build the frontend web application for the same project.
+ 
+Please help me design the complete frontend architecture in Markdown format.
+ 
+I want the response to be simple, clean, and easy to follow.
+ 
+Do not assume I already know:
+- frontend architecture
+- API integration structure
+- folder organization
+- state management
+- UI flow
+ 
+Please decide everything based on my requirement.
+ 
+Do not generate implementation code.
+ 
+Generate only:
+- frontend architecture
+- frontend flow
+- UI flow
+- folder structure
+- component planning
+- state management planning
+- API integration planning
+- phase-wise implementation
+ 
+The response should be easy to implement step-by-step.
+ 
+Do not overcomplicate the explanation.
+ 
+---
+ 
+# C — CONTEXT
+ 
+I already completed:
+- backend retrieval system
+- backend ingestion system
+ 
+Now I want to build the frontend web application.
+ 
+The frontend should support:
+ 
+1. Resume ingestion
+2. Resume Retrieval/Search
+ 
+ingestion flow should be implemented first.
+ 
+After ingestion frontend is completed, Retrieval/Search frontend should continue inside the same application.
+ 
+The application should:
+- upload resume PDFs
+- show upload progress
+- show processing states
+- show ingestion success
+- allow searching resumes
+- display candidate results
+- open candidate details
+ 
+The frontend should integrate with my existing backend APIs.
+ 
+Technology Stack:
+ 
+- React
+- TypeScript
+- Vite
+- TailwindCSS
+ 
+The frontend should be clean and modular.
+ 
+---
+ 
+# E — EXAMPLE
+ 
+The application flow should work something like this:
+ 
+Resume Upload
+      ↓
+Resume Processing
+      ↓
+Embedding Generation
+      ↓
+Resume Stored
+      ↓
+Resume Search
+      ↓
+Candidate Results
+      ↓
+Candidate Details
+ 
+The frontend architecture should explain:
+- what screens are needed
+- what components are needed
+- how frontend flow should work
+- how API communication should happen
+- how state should be managed
+- how upload flow should work
+- how search flow should work
+ 
+The response should also explain:
+- folder structure
+- component responsibilities
+- loading flow
+- error handling
+- validation flow
+ 
+---
+ 
+# P — PERSONA
+ 
+Act like an experienced frontend architect designing a production-ready frontend application.
+ 
+Keep the explanation:
+- practical
+- simple
+- implementation-oriented
+- beginner friendly
+- cleanly organized
+ 
+Avoid unnecessary technical complexity.
+ 
+---
+ 
+# O — OUTPUT FORMAT
+ 
+Generate the response in Markdown format.
+ 
+The response should contain:
+ 
+1. Frontend Overview
+2. Frontend Application Flow
+3. Recommended Folder Structure
+4. UI Screen Planning
+5. Component Planning
+6. State Management Flow
+7. Upload Flow
+8. Search Flow
+9. Validation Handling
+10. Error Handling
+11. Loading States
+12. Phase-wise Frontend Implementation
+13. Final End-to-End Frontend Flow
+ 
+Use:
+- markdown headings
+- flow diagrams
+- tables where needed
+- simple explanations
+ 
+Do not generate implementation code.
+ 
+---
+ 
+# T — TASK
+ 
+Design a complete frontend architecture for a Resume ingestion and Resume Retrieval web application.
+ 
+The architecture should clearly explain:
+- how the frontend should be organized
+- how upload flow should work
+- how retrieval flow should work
+- how frontend and backend communicate
+- how the UI should behave
+- how the full frontend pipeline should be implemented phase-by-phase
+ 
+Generate the final frontend architecture document now.
