@@ -1,8 +1,6 @@
 # Resume RAG Enhancement — Assignment Report
 
 **Project:** RecruitBot — Enhanced Resume RAG Application
-**Submitted by:** _<your name>_
-**Date:** _<date>_
 
 ---
 
@@ -190,10 +188,7 @@ npm run dev
 
 ---
 
-## 9. Repository & Submission
-
-- **GitHub repository:** _<your repo url>_
-- **Submitted to:** WhatsApp group + GitHub
+## 9. Repository
 
 Supporting documents in the repo:
 - `IMPLEMENTATION.md` — phase-wise implementation detail
