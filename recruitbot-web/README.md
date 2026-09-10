@@ -68,7 +68,7 @@ src/
 │   ├── common/         # BrandAvatar, StatusDot, LoadingDots
 │   ├── layout/         # AppShell, Sidebar, ChatMain
 │   └── features/
-│       ├── sidebar/    # search-mode nav, hybrid weights, AI enhancement toggles
+│       ├── sidebar/    # search-mode nav, hybrid weights, AI enhancements (Hybrid)
 │       ├── chat/       # topbar, messages, bubbles, input, suggestions
 │       ├── results/    # result cards, score pills, rank badges, summary, errors
 │       └── candidate/  # candidate profile modal + sections

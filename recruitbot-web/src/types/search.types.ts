@@ -57,4 +57,10 @@ export interface SearchResponse {
   results: SearchResult[];
   degraded?: boolean;
   warnings?: string[];
+  /**
+   * Whether this mode ran the full AI pipeline (merge + dedupe + LLM
+   * re-rank + optional summaries). Only Hybrid does; Vector/BM25 are
+   * single-engine searches shown in their native relevance order.
+   */
+  aiPipeline: boolean;
 }

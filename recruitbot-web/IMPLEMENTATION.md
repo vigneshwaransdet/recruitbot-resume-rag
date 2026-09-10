@@ -91,11 +91,13 @@ deterministically-ordered results. The UI surfaces this (see Phase E).
 
 **Goal:** "Display all relevant results clearly."
 
-- All search modes now run the **full pipeline** (`POST /v1/search`), so re-ranking, dedup and summaries always appear.
-- **Sidebar "AI Enhancements" section** with **Re-ranking** and **Summarize** toggles (both on by default), sitting alongside the search modes:
-  - *Summarize* toggles the backend `summarize` option (real behaviour change).
-  - *Re-ranking* toggles whether the LLM relevance score + reason are shown (the backend pipeline always re-ranks).
-- **Result card** shows: rank badge, relevance score pill, experience, a **"Matched by Keyword + Semantic"** dedup badge, skill chips, the re-rank **reason** ("Why"), and a **Fit summary** box.
+- **Each mode maps to its true backend route** (honest mode selector):
+  - Vector → `POST /v1/search/vector` (semantic only, native similarity order)
+  - BM25 → `POST /v1/search/bm25` (keyword only, native BM25 order)
+  - Hybrid → `POST /v1/search` (full pipeline: merge + dedupe + LLM re-rank + optional summaries)
+- **Re-ranking and deduplication are always on** in Hybrid (shown as "Always on" indicators, not toggles — they only ever improve results).
+- **Summarize is the one genuine toggle** (heaviest LLM step). The whole "AI Enhancements" panel (plus Search Weights) appears **only in Hybrid**, since none of it applies to the single-engine modes.
+- **Result card** (Hybrid) shows: rank badge, relevance score pill, experience, a dedup provenance badge, skill chips, the re-rank **reason** ("Why"), and a **Fit summary** box. Vector/BM25 cards show the engine's score + single-source badge only.
 - **Candidate modal** shows: score + experience, matched-by provenance, skills, "Why this candidate" (reason), and the full Fit summary.
 - Response fields normalized in `search.api.ts` (`relevanceScore → score`, `skills`, `sources`, `reason`, `summary`).
 

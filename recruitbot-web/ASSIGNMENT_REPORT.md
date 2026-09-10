@@ -52,10 +52,11 @@ The database currently holds **168 resumes**, all embedded and searchable.
 ## 3. Features Implemented
 
 ### 3.1 Re-ranking of retrieved resumes
-After retrieval, an LLM re-orders candidates by how well they fit the query,
-assigning each a **relevance score** and a short **"why"** reason. Results
-are shown in ranked order (#1, #2, …) with a coloured score pill and the
-reason on each card.
+In **Hybrid** mode, after retrieval an LLM re-orders candidates by how well
+they fit the query, assigning each a **relevance score** and a short
+**"why"** reason. Results are shown in ranked order (#1, #2, …) with a
+coloured score pill and the reason on each card. Re-ranking is **always on**
+in Hybrid (not a toggle). Vector/BM25 modes show each engine's own ranking.
 
 ### 3.2 Deduplication of repeated results
 Keyword (BM25) and semantic (Vector) searches often return the same
@@ -69,9 +70,9 @@ Each top candidate gets an AI **"Fit Summary"** tailored to the query
 (shown truncated on the card, in full in the profile modal).
 
 ### 3.4 Complete end-to-end pipeline integration
-A single search triggers the whole chain (embed → retrieve → dedupe →
-re-rank → summarize) in one request, with per-stage timings and graceful
-degradation if the LLM is briefly unavailable.
+A single **Hybrid** search triggers the whole chain (embed → BM25 + vector →
+merge → dedupe → re-rank → summarize) in one request, with per-stage timings
+and graceful degradation if the LLM is briefly unavailable.
 
 ### 3.5 Display all relevant results clearly on the UI
 - Results header: "Found N candidates · Mode · time"
@@ -90,12 +91,22 @@ degradation if the LLM is briefly unavailable.
 | Theme | **Professional Blue**, dark — primary `#2563eb`, accent `#06b6d4` |
 | Backgrounds | Cool blue-gray — `#0b1120` / `#111a2e` / `#172136` |
 | Score colours | Vector `#3b82f6`, BM25 `#22d3ee`, Hybrid `#34d399` |
-| Layout | Sidebar (brand, search modes, AI enhancement toggles, results limit) + chat main + candidate modal |
+| Layout | Sidebar (brand, search modes, Hybrid-only AI panel, results limit) + chat main + candidate modal |
 | Responsive | Mobile (<768px) collapses the sidebar into a slide-out drawer with a hamburger toggle |
 | Messages | Loading, success, validation, and error states across search + upload |
 
-**Search modes:** Vector (semantic), BM25 (keyword), Hybrid (both, with
-adjustable weights). **AI Enhancements:** Re-ranking and Summarize toggles.
+**Search modes (each runs its true engine):**
+- **Vector** — semantic-only search (`/v1/search/vector`), ordered by similarity
+- **BM25** — keyword-only search (`/v1/search/bm25`), ordered by BM25 relevance
+- **Hybrid** — full AI pipeline (`/v1/search`): both engines → merge + dedupe → LLM re-rank → optional summaries, with adjustable BM25/Vector weights
+
+**AI Enhancements (shown only in Hybrid mode, where they apply):**
+- **Re-ranking** — always on (shown as an "AI-ranked" indicator, not a toggle)
+- **Deduplication** — always on (shown as a "Deduplicated — N merged" indicator)
+- **Summarize** — a user toggle (the heaviest LLM step, so it stays optional)
+
+Vector and BM25 are pure single-engine searches (fast, no LLM), so they show
+each engine's own relevance order and do not display re-rank/dedup/summaries.
 
 ---
 

@@ -1,30 +1,38 @@
-import { ListOrdered, FileText } from 'lucide-react';
+import { FileText, Sparkles, Layers } from 'lucide-react';
 import { EnhancementToggle } from './EnhancementToggle';
 import { useSearchStore } from '@/lib/stores/search.store';
 
 /**
- * EnhancementsPanel — sidebar section for the AI pipeline enhancements
- * (re-ranking and summarization), shown alongside the search modes.
+ * EnhancementsPanel — AI capabilities of the Hybrid pipeline.
  *
- * - Summarize toggles the backend `summarize` option (real behaviour).
- * - Re-ranking toggles whether the LLM relevance score + reason are shown
- *   on results (the backend pipeline always re-ranks).
+ * This panel is only rendered when Hybrid mode is active (see Sidebar), so
+ * every control here applies. Re-ranking and Deduplication are ALWAYS ON
+ * (shown as indicators, not switches, since they only improve results).
+ * Summarize is a genuine toggle — it's the heaviest/slowest LLM step.
  */
 export function EnhancementsPanel() {
-  const rerankEnabled = useSearchStore((s) => s.rerankEnabled);
   const summarizeEnabled = useSearchStore((s) => s.summarizeEnabled);
-  const setRerankEnabled = useSearchStore((s) => s.setRerankEnabled);
   const setSummarizeEnabled = useSearchStore((s) => s.setSummarizeEnabled);
 
   return (
     <div className="flex flex-col gap-2">
-      <EnhancementToggle
-        icon={ListOrdered}
-        label="Re-ranking"
-        description="AI relevance ordering"
-        checked={rerankEnabled}
-        onChange={setRerankEnabled}
-      />
+      {/* Always-on capabilities (indicators, not toggles) */}
+      <div className="flex items-center gap-2 rounded-lg border border-white/[0.07] bg-bg-card px-3 py-2 text-xs text-text-muted">
+        <Sparkles size={14} className="text-primary" />
+        <span className="flex-1">AI re-ranking</span>
+        <span className="rounded-full bg-score-hybrid/15 px-1.5 py-0.5 text-[10px] font-medium text-score-hybrid">
+          Always on
+        </span>
+      </div>
+      <div className="flex items-center gap-2 rounded-lg border border-white/[0.07] bg-bg-card px-3 py-2 text-xs text-text-muted">
+        <Layers size={14} className="text-primary" />
+        <span className="flex-1">Deduplication</span>
+        <span className="rounded-full bg-score-hybrid/15 px-1.5 py-0.5 text-[10px] font-medium text-score-hybrid">
+          Always on
+        </span>
+      </div>
+
+      {/* Summarize — the one genuine toggle */}
       <EnhancementToggle
         icon={FileText}
         label="Summarize"

@@ -8,22 +8,21 @@ import type {
 } from '@/types/search.types';
 
 /**
- * Search API.
+ * Search API — each UI mode maps to its TRUE backend behaviour so the mode
+ * selector is honest:
  *
- * All UI modes run the backend's FULL pipeline (POST /v1/search):
- *   embed -> BM25 + vector (parallel) -> merge + dedupe -> LLM re-rank
- *   -> optional summaries -> ranked results.
+ *   Vector → POST /v1/search/vector   (semantic only; native similarity order)
+ *   BM25   → POST /v1/search/bm25      (keyword only; native BM25 order)
+ *   Hybrid → POST /v1/search           (full AI pipeline:
+ *                                       BM25 + vector → merge + dedupe →
+ *                                       LLM re-rank → optional summaries)
  *
- * This is intentional for the enhanced app: re-ranking, deduplication and
- * summarization are the headline features, so every search surfaces them.
- * The selected UI mode still drives badge colour / labelling.
- *
- * Pipeline response row shape (verified live):
- *   { rank, resumeId, name, role, company, totalExperience, skills[],
- *     sources[], relevanceScore, reason, summary }
+ * Only Hybrid runs the AI pipeline (re-rank / dedupe / summaries). Vector
+ * and BM25 are pure single-engine searches shown in their own relevance
+ * order. The response carries `aiPipeline` so the UI can label honestly.
  */
 
-interface PipelineRow {
+interface RawRow {
   rank?: number;
   resumeId: string;
   name?: string | null;
@@ -31,14 +30,14 @@ interface PipelineRow {
   company?: string | null;
   totalExperience?: number | null;
   skills?: string[];
+  matchedSkills?: string[];
   sources?: string[];
   relevanceScore?: number;
-  reason?: string;
-  summary?: string;
-  // mode-specific route fallbacks
-  score?: number;
   vectorScore?: number;
   bm25Score?: number;
+  score?: number;
+  reason?: string;
+  summary?: string;
   snippet?: string;
   content?: string;
 }
@@ -49,13 +48,22 @@ function normalizeSources(raw: string[] | undefined): SearchSource[] | undefined
   return valid.length ? valid : undefined;
 }
 
-function normalizeRow(row: PipelineRow): SearchResult {
+function normalizeRow(row: RawRow, mode: SearchMode): SearchResult {
+  // Score source depends on the endpoint that produced the row.
   const score =
-    row.relevanceScore ??
-    row.vectorScore ??
-    row.bm25Score ??
-    row.score ??
-    0;
+    mode === 'hybrid'
+      ? row.relevanceScore ?? row.score ?? 0
+      : mode === 'vector'
+        ? row.vectorScore ?? row.score ?? 0
+        : row.score ?? row.bm25Score ?? 0;
+
+  // Single-engine modes: provenance is exactly that one engine.
+  const sources: SearchSource[] | undefined =
+    mode === 'hybrid'
+      ? normalizeSources(row.sources)
+      : mode === 'vector'
+        ? ['vector']
+        : ['bm25'];
 
   return {
     resumeId: String(row.resumeId),
@@ -65,8 +73,12 @@ function normalizeRow(row: PipelineRow): SearchResult {
     score,
     experienceYears:
       typeof row.totalExperience === 'number' ? row.totalExperience : undefined,
-    skills: Array.isArray(row.skills) ? row.skills : undefined,
-    sources: normalizeSources(row.sources),
+    skills: Array.isArray(row.skills)
+      ? row.skills
+      : Array.isArray(row.matchedSkills)
+        ? row.matchedSkills
+        : undefined,
+    sources,
     reason: row.reason,
     summary: row.summary,
     content: row.snippet ?? row.content,
@@ -77,27 +89,37 @@ export const searchApi = {
   async search(params: SearchRequest): Promise<SearchResponse> {
     const started = performance.now();
 
-    // Full pipeline for every mode so re-rank + dedupe surface. Summaries
-    // are requested only when the Summarize enhancement is enabled.
-    const body = {
-      query: params.query,
-      options: {
-        finalTopK: params.topK,
-        summarize: params.summarize !== false,
-        summaryStyle: 'short',
-      },
-    };
+    let path: string;
+    let body: Record<string, unknown>;
 
-    const response = await apiClient.post('/v1/search', body);
+    if (params.mode === 'hybrid') {
+      path = '/v1/search';
+      body = {
+        query: params.query,
+        options: {
+          finalTopK: params.topK,
+          summarize: params.summarize !== false,
+          summaryStyle: 'short',
+        },
+      };
+    } else if (params.mode === 'vector') {
+      path = '/v1/search/vector';
+      body = { query: params.query, topK: params.topK };
+    } else {
+      path = '/v1/search/bm25';
+      body = { query: params.query, topK: params.topK };
+    }
+
+    const response = await apiClient.post(path, body);
     const data = response.data as {
-      results?: PipelineRow[];
+      results?: RawRow[];
       degraded?: boolean;
       warnings?: string[];
       timings?: { totalMs?: number };
     };
 
     const rawResults = Array.isArray(data.results) ? data.results : [];
-    const results = rawResults.map(normalizeRow);
+    const results = rawResults.map((r) => normalizeRow(r, params.mode));
 
     const durationMs =
       typeof data.timings?.totalMs === 'number'
@@ -113,9 +135,9 @@ export const searchApi = {
       results,
       degraded: data.degraded,
       warnings: data.warnings,
+      aiPipeline: params.mode === 'hybrid',
     };
   },
 };
 
-// Keep SearchMode import referenced for consumers that build requests.
 export type { SearchMode };

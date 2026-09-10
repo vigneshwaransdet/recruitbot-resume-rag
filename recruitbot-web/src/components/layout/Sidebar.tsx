@@ -49,6 +49,8 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         <SearchModeNav activeMode={searchType} onChange={handleModeChange} />
       </div>
 
+      {/* Hybrid-only controls: search weights + AI enhancements.
+          Vector/BM25 are pure single-engine searches, so none of these apply. */}
       <AnimatePresence initial={false}>
         {searchType === 'hybrid' && (
           <motion.div
@@ -57,17 +59,16 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2, ease: 'easeInOut' }}
-            className="overflow-hidden"
+            className="flex flex-col gap-4 overflow-hidden"
           >
             <HybridWeightPanel />
+            <div className="flex flex-col gap-2">
+              <SectionLabel>AI Enhancements</SectionLabel>
+              <EnhancementsPanel />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-
-      <div className="flex flex-col gap-2">
-        <SectionLabel>AI Enhancements</SectionLabel>
-        <EnhancementsPanel />
-      </div>
 
       <div className="mt-auto flex flex-col gap-3">
         <div className="flex flex-col gap-2">

@@ -60,7 +60,6 @@ export function useSearch() {
     topK,
     bm25Weight,
     vectorWeight,
-    rerankEnabled,
     summarizeEnabled,
     setResults,
     setSearching,
@@ -91,7 +90,7 @@ export function useSearch() {
             durationMs={data.durationMs}
             degraded={data.degraded}
             warnings={data.warnings}
-            showRerank={rerankEnabled}
+            aiPipeline={data.aiPipeline}
             showSummary={summarizeEnabled}
           />
         );
@@ -113,7 +112,6 @@ export function useSearch() {
       topK,
       bm25Weight,
       vectorWeight,
-      rerankEnabled,
       summarizeEnabled,
       setResults,
       setSearching,

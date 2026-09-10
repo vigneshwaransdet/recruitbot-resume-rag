@@ -6,12 +6,12 @@ interface EnhancementToggleProps {
   description: string;
   checked: boolean;
   onChange: (v: boolean) => void;
+  disabled?: boolean;
 }
 
 /**
- * EnhancementToggle — a labelled on/off switch for an AI pipeline stage
- * (re-ranking / summarize). Styled like the search-mode cards for a
- * consistent sidebar look.
+ * EnhancementToggle — a labelled on/off switch for an AI pipeline stage.
+ * Styled like the search-mode cards for a consistent sidebar look.
  */
 export function EnhancementToggle({
   icon: Icon,
@@ -19,15 +19,19 @@ export function EnhancementToggle({
   description,
   checked,
   onChange,
+  disabled = false,
 }: EnhancementToggleProps) {
   return (
     <button
       type="button"
       role="switch"
       aria-checked={checked}
-      onClick={() => onChange(!checked)}
+      aria-disabled={disabled}
+      disabled={disabled}
+      onClick={() => !disabled && onChange(!checked)}
       className={[
         'flex items-center gap-3 rounded-lg border px-3 py-2.5 text-left transition-colors',
+        disabled ? 'cursor-not-allowed opacity-50' : '',
         checked
           ? 'border-primary/30 bg-primary/[0.10]'
           : 'border-white/[0.07] bg-bg-card hover:border-white/[0.15]',
